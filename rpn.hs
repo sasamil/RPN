@@ -1,3 +1,25 @@
+ {-
+ ***************************************************************************
+ *   Copyright (C) 2016 by Саша Миленковић                                 *
+ *   sasa.milenkovic.xyz@gmail.com                                         *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *   ( http://www.gnu.org/licenses/gpl-3.0.en.html )                       *
+ *									   *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************
+ -}
+
 import Data.List
 import Data.List.Split
 
@@ -24,7 +46,7 @@ control :: [[Char]] -> Bool
 control lst = cond1 && cond2 && cond3
   where cond1 = findIndices (`elem` ["+","-","*","/"]) lst == [1,3 .. length lst - 2] 
         cond2 = findIndices (`elem` (map (\x -> [x]) $ '0':['a' .. 'z'])) lst3 == [0,2 .. length lst - 1] 
-        cond3 = length lst `mod` 2 == 1 -- tricky! prevents even number of elements with some strange last element (like @#$&...)
+        cond3 = length lst `mod` 2 /= 0 -- tricky! prevents even number of elements with some strange last element (like @#$&...)
         lst3 = map (\ x -> if length x > 1 then "a" else x) lst 
 
 
@@ -39,7 +61,7 @@ controlmd lst = cond1 && cond2 && cond3 && cond4
   where cond1 = length lst > 2
         cond2 = findIndices (`elem` ["*","/"]) lst == [1,3 .. length lst - 2] -- (-2) - tricky! it also prevents last string to be * or /
         cond3 = findIndices (`elem` (map (\x -> [x]) $ '0':['a' .. 'z'])) lst3 == [0,2 .. length lst - 1]
-        cond4 = length lst `mod` 2 == 1
+        cond4 = length lst `mod` 2 /= 0
         lst3 = map (\ x -> if length x > 1 then "a" else x) lst
 
 
@@ -68,9 +90,9 @@ clearPrefix (x:y:xs) = if x `isPrefixOf` y then clearPrefix (y:xs) else x : clea
 
 
 -------------------------------------
--- consecutive * and / parts of expression, will be encircled by between parantheses
+-- consecutive * and / parts of expression, will be encircled by parantheses
 handlemd :: [[Char]] ->[[Char]]
-handlemd lst = foldl (\ acc x -> replaceSublist x [concat $ "(" : x ++ [")"]] acc) lst (extractMultsDivs lst) -- lst is accumulator; extracted multdiv is iteration source.
+handlemd lst = foldl (\ acc x -> replaceSublist x [concat $ "(" : x ++ [")"]] acc) lst (extractMultsDivs lst) 
   
   
 --------------------------------------------------
@@ -148,6 +170,4 @@ rpn str
         str7 = concat lst6
         str8 = if lst35 /= [errorString] && lst5 /= [errorString] then str7 else errorString
 -- -}
-        
-        
--- expression sample: "x*(a*(b+c*(d-e)+f)-g)+y"        
+       
