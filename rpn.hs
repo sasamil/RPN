@@ -60,7 +60,7 @@ controlmd :: [[Char]] -> Bool
 controlmd lst = cond1 && cond2 && cond3 && cond4
   where cond1 = length lst > 2
         cond2 = findIndices (`elem` ["*","/"]) lst == [1,3 .. length lst - 2] -- (-2) - tricky! it also prevents last string to be * or /
-        cond3 = findIndices (`elem` (map (\x -> [x]) $ '0':['a' .. 'z'])) lst3 == [0,2 .. length lst - 1]
+        cond3 = findIndices (`elem` [[t] | t <- '0':['a' .. 'z']]) lst3 == [0,2 .. length lst - 1]
         cond4 = length lst `mod` 2 /= 0
         lst3 = map (\ x -> if length x > 1 then "a" else x) lst
 
@@ -168,5 +168,5 @@ rpn str
 
 -- usage: 
 -- rpn "x*(a*(b+c*(d-e)+f)-g)+y"   ( = "xabcde-*+f+*g-*y+" )
--- rpn "(((a*(b+c-d*e))))+(f-g*h)"   ( = "abc+de*-*fgh*-+" )
+-- rpn "(-((a*(b+c-d*e))))+(f-g*h)"   ( = "0abc+de*-*-fgh*-+" )
 -- rpn " - (a + b) / ( (-  c - d - e) ) * ( f-g*h / i+j) "   ( = "0ab+0c-d-e-/fgh*i/-j+*-" )
