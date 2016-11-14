@@ -1,24 +1,3 @@
-{-
- ***************************************************************************
- *   Copyright (C) 2016 by Саша Миленковић                                 *
- *   sasa.milenkovic.xyz@gmail.com                                         *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *   ( http://www.gnu.org/licenses/gpl-3.0.en.html )                       *
- *									   *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
- ***************************************************************************
- -}
 
 import Data.List
 import Data.List.Split
@@ -46,7 +25,7 @@ control :: [[Char]] -> Bool
 control lst = cond1 && cond2 && cond3
   where cond1 = findIndices (`elem` ["+","-","*","/"]) lst == [1,3 .. length lst - 2] 
         cond2 = findIndices (`elem` (map (\x -> [x]) $ '0':['a' .. 'z'])) lst3 == [0,2 .. length lst - 1] 
-        cond3 = length lst `mod` 2 /= 0 -- tricky! prevents even number of elements with some strange last element (like @#$&...)
+        cond3 = odd $ length lst -- tricky! prevents even number of elements with some strange last element (like @#$&...)
         lst3 = map (\ x -> if length x > 1 then "a" else x) lst 
 
 
@@ -100,7 +79,7 @@ handlemd lst = foldl (\ acc x -> replaceSublist x [concat $ "(" : x ++ [")"]] ac
 -- e.g. a*b/c*d/e*f -> ab*c/d*e/f*
 reorder :: [[Char]] -> [[Char]]
 reorder lst
-  | length lst `mod` 2 /= 1 = [errorString]
+  | even $ length lst = [errorString]
   | otherwise = head lst : (swap $ tail lst)
   where
     swap [] = []
@@ -133,7 +112,7 @@ takePss str = head goodstrings
 demolish :: [Char] -> [[Char]]
 demolish str
   | str == "" = []
-  | otherwise = [] ++ [part] ++ demolish stail -- recursion  
+  | otherwise = [] ++ [part] ++ demolish stail   
   where part = if x /= '(' then [x] else takePss str  
         stail = drop (length part) str
         x = head str
@@ -162,7 +141,7 @@ rpn str
         lst3 = demolish str2
         lst4 = if control lst3 then lst3 else [errorString]
         lst5 = reorder $ if controlmd lst4 then lst4 else handlemd lst4
-        str7 = concat $ map (\x -> if length x == 1 then x else rpn x) lst5 -- recursion
+        str7 = concat $ map (\x -> if length x == 1 then x else rpn x) lst5 
         str8 = if lst4 /= [errorString] && lst4 /= [errorString] then str7 else errorString
 -- -}
 
