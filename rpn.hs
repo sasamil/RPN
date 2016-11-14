@@ -160,12 +160,10 @@ rpn str
   where str2 = " " `removeFrom` str
         middle = init $ tail str2
         lst3 = demolish str2
-        lst35= if control lst3 then lst3 else [errorString]
-        lst4 = if controlmd lst35 then lst35 else handlemd lst35
-        lst5 = reorder lst4
-        lst6 = map (\x -> if length x == 1 then x else rpn x) lst5 -- recursion
-        str7 = concat lst6
-        str8 = if lst35 /= [errorString] && lst5 /= [errorString] then str7 else errorString
+        lst4 = if control lst3 then lst3 else [errorString]
+        lst5 = reorder $ if controlmd lst4 then lst4 else handlemd lst4
+        str7 = concat $ map (\x -> if length x == 1 then x else rpn x) lst5 -- recursion
+        str8 = if lst4 /= [errorString] && lst4 /= [errorString] then str7 else errorString
 -- -}
 
 -- usage: 
