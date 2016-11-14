@@ -150,11 +150,8 @@ errorString = "error - irregurar expression"
 rpn :: [Char] -> [Char]
 rpn [] = errorString
 rpn (x:[])     = if x `elem` ['a' .. 'z'] then [x] else errorString
-rpn ('-':'+':xs) = errorString -- tricky !
-rpn ('+':'-':xs) = errorString
-rpn ('-':'-':xs) = errorString
-rpn ('+':'+':xs) = errorString 
 rpn str
+  | all (`elem` "+-") $ take 2 str = errorString  -- tricky !
   | not $ controlPrtss str = errorString
   | head str2 == '(' && last str2 == ')' && controlPrtss middle = rpn middle
   | head str2 == '+' = rpn $ tail str2 
