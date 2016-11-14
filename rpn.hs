@@ -1,4 +1,4 @@
- {-
+{-
  ***************************************************************************
  *   Copyright (C) 2016 by Саша Миленковић                                 *
  *   sasa.milenkovic.xyz@gmail.com                                         *
@@ -170,4 +170,8 @@ rpn str
         str7 = concat lst6
         str8 = if lst35 /= [errorString] && lst5 /= [errorString] then str7 else errorString
 -- -}
-       
+
+-- usage: 
+-- rpn "x*(a*(b+c*(d-e)+f)-g)+y"   ( = "xabcde-*+f+*g-*y+" )
+-- rpn "(((a*(b+c-d*e))))+(f-g*h)"   ( = "abc+de*-*fgh*-+" )
+-- rpn " - (a + b) / ( (-  c - d - e) ) * ( f-g*h / i+j) "   ( = "0ab+0c-d-e-/fgh*i/-j+*-" )
