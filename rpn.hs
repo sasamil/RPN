@@ -52,7 +52,7 @@ extractMultsDivs lst = clearPrefix $ clearSuffix [t | t <- contsublists lst, con
 
 -------------------------------------
 -- removes elements which are sufix of previous elements
-clearSuffix :: (Eq a) => [[a]] -> [[a]]
+clearSuffix :: Eq a => [[a]] -> [[a]]
 clearSuffix lst = reverse . clear2 $ reverse lst
   where 
     clear2 [] = []
@@ -62,7 +62,7 @@ clearSuffix lst = reverse . clear2 $ reverse lst
 
 -------------------------------------
 -- removes elements which are sufix of previous elements
-clearPrefix :: (Eq a) => [[a]] ->[[a]]
+clearPrefix :: Eq a => [[a]] ->[[a]]
 clearPrefix [] = []
 clearPrefix [x] = [x]
 clearPrefix (x:y:xs) = if x `isPrefixOf` y then clearPrefix (y:xs) else x : clearPrefix (y:xs)
@@ -138,11 +138,10 @@ rpn str
   | otherwise = if "error" `isInfixOf` str8 then errorString else str8
   where str2 = " " `removeFrom` str
         middle = init $ tail str2
-        lst3 = demolish str2
-        lst4 = if control lst3 then lst3 else [errorString]
+        lst4 = let lst3 = demolish str2 in if control lst3 then lst3 else [errorString]
         lst5 = reorder $ if controlmd lst4 then lst4 else handlemd lst4
         str7 = concat $ map (\x -> if length x == 1 then x else rpn x) lst5 
-        str8 = if lst4 /= [errorString] && lst4 /= [errorString] then str7 else errorString
+        str8 = if lst4 /= [errorString] && lst5 /= [errorString] then str7 else errorString
 -- -}
 
 -- usage: 
