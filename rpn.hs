@@ -90,7 +90,7 @@ reorder lst
 -- controlPrtss -- control parentheses
 -- there is no "()"
 -- number of '(' == number of ')'
--- all inits (left substrings) contain not less '('s than ')'s
+-- all left substrings contain not less '('s than ')'s
 controlPrtss :: [Char] -> Bool
 controlPrtss str = cond1 && cond2 && cond3
   where cond1 = not $ "()" `isInfixOf` str
