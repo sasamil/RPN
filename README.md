@@ -1,6 +1,6 @@
 RPN - Reverse Polish Notation
 
-A simple program for converting algebraic expressions to the corresponding RPN forms. Just another illustration of Haskell's power and potential, among many similar examples on internet.
+A simple program for converting algebraic expressions into the corresponding RPN forms. Just another illustration of Haskell's power and potential, among many similar examples on internet.
 
 I fell in love with Haskell. It might be because it's so different. It's totally lazy and due to the laziness - efficient! There is no program flow; there are neither classic loops, nor classic variables!? But, there are weird things like infinite lists, recursive type structures, monoids, monads... Sounds crazy. Looks so seductive!
 <br/>(in my case - irresistibly seductive <img src="http://www.animated-gifs.eu/category_emoticons/smilies-love/0022.gif" alt="mutual love" height="25" width="37"> ) 
