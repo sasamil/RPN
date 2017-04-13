@@ -123,7 +123,6 @@ demolish str
 -- if expression is encircled by parentheses, end everything inside is OK - ignore the parentheses
 -- if expression  begins with +, ignore that +
 -- if expression  begins with -, prefix it with 0
--- {-
 errorString = "error - irregurar expression"
 
 rpn :: [Char] -> [Char]
@@ -142,9 +141,13 @@ rpn str
         lst5 = reorder $ if controlmd lst4 then lst4 else handlemd lst4
         str7 = concat $ map (\x -> if length x == 1 then x else rpn x) lst5 
         str8 = if lst4 /= [errorString] && lst5 /= [errorString] then str7 else errorString
--- -}
 
--- usage: 
--- rpn "x*(a*(b+c*(d-e)+f)-g)+y"   ( = "xabcde-*+f+*g-*y+" )
--- rpn "(-((a*(b+c-d*e))))+(f-g*h)"   ( = "0abc+de*-*-fgh*-+" )
--- rpn " - (a + b) / ( (-  c - d - e) ) * ( f-g*h / i+j) "   ( = "0ab+0c-d-e-/fgh*i/-j+*-" )
+
+{-
+-- usage examples:
+
+rpn "x*(a*(b+c*(d-e)+f)-g)+y"   ( = "xabcde-*+f+*g-*y+" )
+rpn "(-((a*(b+c-d*e))))+(f-g*h)"   ( = "0abc+de*-*-fgh*-+" )
+rpn " - (a + b) / ( (-  c - d - e) ) * ( f-g*h / i+j) "   ( = "0ab+0c-d-e-/fgh*i/-j+*-" )
+
+-}
